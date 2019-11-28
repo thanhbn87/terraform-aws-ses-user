@@ -7,12 +7,6 @@ variable "enabled" {
   default     = true
 }
 
-variable "ses_region" {
-  type        = "string"
-  description = "The region of SES"
-  default     = "us-west-2"
-}
-
 variable "ses_user" {
   type        = "string"
   description = "Name of the SES user"

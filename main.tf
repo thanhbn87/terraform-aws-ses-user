@@ -1,7 +1,3 @@
-provider "aws" {
-  region  = "${var.ses_region}"
-}
-
 locals {
   temp_file_policy = "${coalesce(var.temp_file_policy,"${path.module}/Policy.json.tpl")}"
 }
