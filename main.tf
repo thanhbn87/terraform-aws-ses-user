@@ -13,14 +13,14 @@ resource "aws_iam_user" "this" {
 
 resource "aws_iam_access_key" "this" {
   count   = var.enabled ? 1 : 0
-  user    = aws_iam_user.this.name
+  user    = concat(aws_iam_user.this.*.name, list(""))[0]
   pgp_key = var.pgp_key
 }
 
 data "template_file" "ses_policy" {
   count    = var.enabled ? 1 : 0
   template = file(local.temp_file_policy)
-  vars {
+  vars = {
     resources     = jsonencode(var.resources)
     whitelist_ips = jsonencode(var.whitelist_ips)
   }
@@ -29,7 +29,7 @@ data "template_file" "ses_policy" {
 resource "aws_iam_user_policy" "this" {
   count       = var.enabled ? 1 : 0
   name_prefix = var.user_policy_name_prefix
-  user        = aws_iam_user.this.name
+  user        = concat(aws_iam_user.this.*.name, list(""))[0]
 
-  policy = data.template_file.ses_policy.rendered
+  policy = data.template_file.ses_policy.*.rendered[0]
 }
