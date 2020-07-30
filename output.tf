@@ -20,7 +20,7 @@ output "ses_smtp_password" {
 }
 
 output "ses_smtp_password_v4" {
-  value       = concat(aws_iam_access_key.this.*.ses_smtp_password, list(""))[0]
+  value       = concat(aws_iam_access_key.this.*.ses_smtp_password_v4, list(""))[0]
   description = "The secret access key converted into an SES SMTP password by applying AWS's documented Sigv4 conversion algorithm"
   sensitive   = false
 }
